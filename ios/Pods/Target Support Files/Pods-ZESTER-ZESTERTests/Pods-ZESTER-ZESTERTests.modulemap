@@ -1,0 +1,6 @@
+module Pods_ZESTER_ZESTERTests {
+  umbrella header "Pods-ZESTER-ZESTERTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

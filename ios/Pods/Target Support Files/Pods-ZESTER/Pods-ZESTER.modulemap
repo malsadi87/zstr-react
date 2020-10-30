@@ -1,0 +1,6 @@
+module Pods_ZESTER {
+  umbrella header "Pods-ZESTER-umbrella.h"
+
+  export *
+  module * { export * }
+}
