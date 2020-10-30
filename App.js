@@ -6,15 +6,19 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar,
-} from 'react-native';
+  Button,
+} from 'react-native'
 
 import {
   Header,
@@ -22,93 +26,84 @@ import {
   Colors,
   DebugInstructions,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+} from 'react-native/Libraries/NewAppScreen'
 
-const App: () => React$Node = () => {
+import HomeScreen from './src/screens/HomeScreen'
+import DetailsScreen from './src/screens/DetailsScreen'
+
+//const Stack = createStackNavigator()
+
+// to merge stack navigator with Drawer navigator
+const HomeStack = createStackNavigator()
+const DetailsStack = createStackNavigator()
+
+const HomeStackScreen = ({ navigation }) => {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+    <HomeStack.Navigator screenOptions={
+      {
+        headerStyle: {
+          backgroundColor: "#009387"
+        },
+        headerTintColor: "#FFF",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      }
+    }>
+      <HomeStack.Screen name="Home" component={HomeScreen} options={{
+        title: "Overview"
+      }} />
+    </HomeStack.Navigator>
+  )
+}
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+const DetailsStackScreen = ({ navigation }) => {
+  return (
+    <DetailsStack.Navigator screenOptions={
+      {
+        headerStyle: {
+          backgroundColor: "#009387"
+        },
+        headerTintColor: "#FFF",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      }
+    }>
+      <HomeStack.Screen name="Details" component={DetailsScreen} />
 
-export default App;
+    </DetailsStack.Navigator>
+  )
+}
+
+const Drawer = createDrawerNavigator()
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeStackScreen} />
+        <Drawer.Screen name="Details" component={DetailsStackScreen} />
+      </Drawer.Navigator>
+      {/*<Stack.Navigator screenOptions={
+        {
+          headerStyle:{
+            backgroundColor:"#009387"
+          },
+          headerTintColor:"#FFF",
+          headerTitleStyle:{
+            fontWeight:"bold"
+          }
+        }
+      }>
+        <Stack.Screen name="Home" component={HomeScreen} options={{
+          title:"Overview"
+        }}/>
+        <Stack.Screen name="Details" component={DetailsScreen} />
+
+      </Stack.Navigator>*/}
+    </NavigationContainer>
+  )
+}
+
+export default App
