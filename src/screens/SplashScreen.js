@@ -9,23 +9,26 @@ import {
 } from 'react-native'
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import * as Animatable from 'react-native-animatable'
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.logoCanvas}>
-                    <Image
+                    <Animatable.Image
+                        duraton="1500"
+                        animation="bounceIn"
                         style={styles.logo}
                         source={require('../images/logo2.png')}
                         resizeMode="stretch" />
                 </View>
             </View>
-            <View style={styles.footer}>
+            <Animatable.View style={styles.footer} animation="fadeInUpBig">
                 <Text style={styles.title}>Stay Connected with everyone</Text>
                 <Text style={styles.text}>Sign in with account</Text>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={()=> {alert("Clicked")} } 
+                    <TouchableOpacity onPress={()=> {navigation.navigate('SignIn')} } 
                         style={styles.appButtonContainer}
                         >
                          <Text style={styles.appButtonText}>Get Started</Text>
@@ -36,7 +39,7 @@ const SplashScreen = () => {
                          />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </Animatable.View>
         </View>
     )
 }
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     },
     appButtonContainer: {
         backgroundColor: "#009387",
-        borderRadius: 15,
+        borderRadius: 30,
         paddingVertical: 12,
         paddingHorizontal: 12,
         flexDirection:"row"
