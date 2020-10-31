@@ -8,7 +8,6 @@ target 'ZESTER' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'ZESTERTests' do
     inherit! :complete
@@ -32,4 +31,7 @@ target 'ZESTER-tvOS' do
     inherit! :search_paths
     # Pods for testing
   end
+
+  
+
 end

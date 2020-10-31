@@ -1,0 +1,30 @@
+export default Users = [
+    {
+        id:1,
+        email:"mohammed@yahoo.com",
+        password:"1111",
+        username:"mohammed",
+        userToken:"abcd"
+    },
+    {
+        id:2,
+        email:"ali@yahoo.com",
+        password:"2222",
+        username:"ali",
+        userToken:"efgh"
+    },
+    {
+        id:3,
+        email:"hadil@yahoo.com",
+        password:"3333",
+        username:"hadil",
+        userToken:"ijkl"
+    },
+    {
+        id:4,
+        email:"rana@yahoo.com",
+        password:"4444",
+        username:"rana",
+        userToken:"wxyz"
+    },
+]

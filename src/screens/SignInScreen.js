@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {
     StyleSheet,
     Text, View,
-    Platform, Dimensions, TouchableOpacity,
+    Platform, Alert, TouchableOpacity,
     TextInput
 } from 'react-native'
 
@@ -10,28 +10,34 @@ import * as Animatable from 'react-native-animatable'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Feather from 'react-native-vector-icons/Feather'
 
+import { AuthContext } from '../components/context'
+
+import Users from '../model/users'
+
 
 const SignInScreen = ({ navigation }) => {
     // state hook
     const [data, setData] = useState({
-        email: '',
+        username: '',
         password: '',
         secureTextEntry: true,
-        check_emailInputChange: false
+        check_usernameInputChange: false
     })
 
-    const emailInputChange = (val) => {
+    const { signIn } = useContext(AuthContext)
+
+    const usernameInputChange = (val) => {
         if (val.length !== 0) {
             setData({
                 ...data,
-                email: val,
-                check_emailInputChange: true
+                username: val,
+                check_usernameInputChange: true
             })
         } else {
             setData({
                 ...data,
-                email: val,
-                check_emailInputChange: false
+                username: val,
+                check_usernameInputChange: false
             })
         }
     }
@@ -50,15 +56,36 @@ const SignInScreen = ({ navigation }) => {
         })
     }
 
+    const handleLogin = (username, password) => {
+
+        if(username.length == 0 || password.length == 0){
+            Alert.alert('Wrong Input', 'Username or password field can not be empty', [
+                {text : "OK"}
+            ])
+            return
+        }
+
+        const foundUser = Users.filter(item => {
+            return item.username == username && item.password == password
+        })
+        if(foundUser.length == 0){
+            Alert.alert('Invalid User', 'Username or password is not corrent', [
+                {text : "OK"}
+            ])
+            return
+        }
+        signIn(foundUser)
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.text_header}>Welcome to ZESTER!</Text>
             </View>
-            <Animatable.View 
+            <Animatable.View
                 style={styles.footer}
                 animation="fadeInUpBig">
-                <Text style={styles.text_footer}>Email</Text>
+                <Text style={styles.text_footer}>Username</Text>
                 <View style={styles.action}>
                     <FontAwesome
                         name="user-o"
@@ -67,11 +94,11 @@ const SignInScreen = ({ navigation }) => {
                     />
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Your email address"
+                        placeholder="Your username"
                         autoCapitalize="none"
-                        onChangeText={(val) => emailInputChange(val)}
+                        onChangeText={(val) => usernameInputChange(val)}
                     />
-                    {data.check_emailInputChange ?
+                    {data.check_usernameInputChange ?
                         <Animatable.View
                             animation="bounceIn">
                             <Feather
@@ -117,7 +144,7 @@ const SignInScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => { navigation.navigate('SignIn') }}
+                    <TouchableOpacity onPress={() => { handleLogin(data.username, data.password) }}
                         style={styles.appButtonContainer}
                     >
                         <Text style={styles.appButtonText}>Sign In</Text>
@@ -129,7 +156,7 @@ const SignInScreen = ({ navigation }) => {
                             borderWidth: 1,
                             borderColor: "#009387",
                             backgroundColor: "#fff",
-                            marginTop:15
+                            marginTop: 15
                         }]}
                     >
                         <Text style={[styles.appButtonText, {

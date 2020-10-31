@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 import {
     DrawerItem,
@@ -16,10 +16,14 @@ import {
     Switch
 } from 'react-native-paper'
 
+import {AuthContext} from './context'
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 const DrawerContent = (props) => {
+
+    const {signOut} = useContext(AuthContext)
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props} >
@@ -130,7 +134,7 @@ const DrawerContent = (props) => {
                         />
                     )}
                     label="Sign out"
-                    onPress={() => { }}
+                    onPress={() => { signOut() }}
                 />
             </Drawer.Section>
         </View>
