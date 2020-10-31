@@ -20,15 +20,18 @@ import SupportScreen from './src/screens/SupportScreen'
 
 const Drawer = createDrawerNavigator()
 
+import RootStackScreen from './src/screens/RootStackScreen'
+
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+      <RootStackScreen />
+      {/*<Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
         <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
         <Drawer.Screen name="Bookmark" component={BookmarkScreen} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />
         <Drawer.Screen name="Support" component={SupportScreen} />
-      </Drawer.Navigator>
+      </Drawer.Navigator>*/}
     </NavigationContainer>
   )
 }
