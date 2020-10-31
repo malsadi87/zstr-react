@@ -123,14 +123,13 @@ const SignInScreen = ({ navigation }) => {
                         <Text style={styles.appButtonText}>Sign In</Text>
 
                     </TouchableOpacity>
-                </View>
 
-                <View style={styles.button}>
                     <TouchableOpacity onPress={() => { navigation.navigate('SignUp') }}
                         style={[styles.appButtonContainer, {
                             borderWidth: 1,
                             borderColor: "#009387",
-                            backgroundColor: "#fff"
+                            backgroundColor: "#fff",
+                            marginTop:15
                         }]}
                     >
                         <Text style={[styles.appButtonText, {

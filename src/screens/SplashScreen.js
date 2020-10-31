@@ -25,7 +25,7 @@ const SplashScreen = ({navigation}) => {
                 </View>
             </View>
             <Animatable.View style={styles.footer} animation="fadeInUpBig">
-                <Text style={styles.title}>Stay Connected with everyone</Text>
+                <Text style={styles.title}>With ZESTER Stay Connected with food lovers</Text>
                 <Text style={styles.text}>Sign in with account</Text>
                 <View style={styles.button}>
                     <TouchableOpacity onPress={()=> {navigation.navigate('SignIn')} } 

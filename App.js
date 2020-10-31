@@ -5,21 +5,8 @@
  * @format
  * @flow strict-local
  */
-
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { createDrawerNavigator } from '@react-navigation/drawer'
-
-import MainTabScreen from './src/screens/MainTabScreen'
-
-import DrawerContent from './src/components/DrawerContent'
-
-import BookmarkScreen from './src/screens/BookmarkScreen'
-import SettingsScreen from './src/screens/SettingsScreen'
-import SupportScreen from './src/screens/SupportScreen'
-
-const Drawer = createDrawerNavigator()
-
 import RootStackScreen from './src/screens/RootStackScreen'
 
 const App = () => {
