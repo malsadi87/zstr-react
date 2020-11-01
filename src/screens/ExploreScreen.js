@@ -1,10 +1,21 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import MapView from 'react-native-maps'
 
 const ExploreScreen = () => {
     return (
-        <View style={styles.main}>
-            <Text> Explore Screen</Text>
+        <View style={styles.container}>
+            <Text>Map</Text>
+            <MapView
+                style={styles.map}
+                region={{
+                    latitude: 37.78825,
+                    longitude: -122.4324,
+                    latitudeDelta: 0.015,
+                    longitudeDelta: 0.0121,
+                }}
+            >
+            </MapView>
         </View>
     )
 }
@@ -12,9 +23,14 @@ const ExploreScreen = () => {
 export default ExploreScreen
 
 const styles = StyleSheet.create({
-    main:{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    }
+    container: {
+        ...StyleSheet.absoluteFillObject,
+        height: 400,
+        width: 400,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    map: {
+        ...StyleSheet.absoluteFillObject,
+    },
 })

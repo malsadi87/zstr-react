@@ -1,10 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
 const SupportScreen = () => {
     return (
         <View style={styles.container}>
-            <Text> Support Screen</Text>
+            
         </View>
     )
 }
@@ -12,9 +11,10 @@ const SupportScreen = () => {
 export default SupportScreen
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex:1,
-        justifyContent:"center",
-        alignItems:"center"
-    }
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+      },
+      
 })
