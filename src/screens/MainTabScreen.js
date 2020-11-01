@@ -10,6 +10,8 @@ import DetailsScreen from './DetailsScreen'
 import ProfileScreen from './ProfileScreen'
 import ExploreScreen from './ExploreScreen'
 import EditProfileScreen from './EditProfileScreen'
+import CardListScreen from './CardListScreen'
+import CardItemDetailsScreen from './CardItemDetailsScreen'
 
 //const Stack = createStackNavigator()
 
@@ -25,24 +27,46 @@ const HomeStackScreen = ({ navigation }) => {
     <HomeStack.Navigator screenOptions={
       {
         headerStyle: {
-          backgroundColor: "#009387"
+          backgroundColor: "#fff",
+          shadowColor:"#fff", // ISO
+          elevation : 0 // Android
         },
-        headerTintColor: "#FFF",
+        headerTintColor: "#333",
         headerTitleStyle: {
           fontWeight: "bold"
         }
       }
     }>
       <HomeStack.Screen name="Home" component={HomeScreen} options={{
-        title: "Overview",
+        title: "Zester",
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
             size={25}
-            backgroundColor="#009387"
+            style={{marginLeft:10}}
+            backgroundColor="#fff"
+            color="#333"
+            onPress={() => { navigation.openDrawer() }} />
+        ),
+        headerRight: () => (
+          <Icon.Button
+            name="ios-search"
+            size={25}
+            backgroundColor="#fff"
+            color="#333"
             onPress={() => { navigation.openDrawer() }} />
         )
       }} />
+      <HomeStack.Screen name="CardListScreen" component={CardListScreen} 
+      options={({route}) => ({
+          title: route.params.title,
+          headerBackTitleVisible: false
+      })} />
+      <HomeStack.Screen name="CardItemDetails" component={CardItemDetailsScreen} 
+      options={({route}) => ({
+          //title: route.params.title,
+          headerBackTitleVisible: false
+      })} />
     </HomeStack.Navigator>
   )
 }

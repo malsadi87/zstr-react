@@ -1,157 +1,217 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, TextInput } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { View, Text, Image, ImageBackground, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 
-import Category from '../components/Category'
-import Product from '../components/Product'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import Icon from 'react-native-vector-icons/Ionicons'
+import Card from '../components/Card'
+import { data } from '../model/data'
+
+import Swiper from 'react-native-swiper'
 
 const assets = require('../assets.js')
 
 const HomeScreen = ({ navigation }) => {
     return (
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={styles.sliderContainer}>
+                    <Swiper height={200} autoplay={true} horizontal={false} activeDotColor="#009387">
+                        <View style={styles.slide}>
+                            <ImageBackground
+                                source={require('../images/slider1.jpg')}
+                                resizeMode="cover"
+                                style={styles.sliderImage}>
+                                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                                    <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>Text on top of image</Text>
+                                </View>
+                            </ImageBackground>
+                        </View>
+                        <View style={styles.slide}>
+                            <Image
+                                source={require('../images/slider2.jpg')}
+                                resizeMode="cover"
+                                style={styles.sliderImage} />
+                        </View>
+                        <View style={styles.slide}>
+                            <Image
+                                source={require('../images/slider5.jpg')}
+                                resizeMode="cover"
+                                style={styles.sliderImage} />
+                        </View>
+                        <View style={styles.slide}>
+                            <Image
+                                source={require('../images/slider4.jpg')}
+                                resizeMode="cover"
+                                style={styles.sliderImage} />
+                        </View>
+                        <View style={styles.slide}>
+                            <Image
+                                source={require('../images/slider3.jpg')}
+                                resizeMode="cover"
+                                style={styles.sliderImage} />
+                        </View>
+                    </Swiper>
+                </View>
+                <View style={styles.categoryContainer}>
+                    <TouchableOpacity style={styles.categoryBtn} onPress={() => {
+                        navigation.navigate('CardListScreen', {
+                            title: "Results"
+                        })
+                    }}>
+                        <View style={styles.categoryIcon}>
+                            <Ionicons name="ios-restaurant" size={30} color="#009387" />
+                        </View>
+                        <Text style={styles.categoryBtnTxt}> Rest1</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.categoryBtn} onPress={() => { }}>
+                        <View style={styles.categoryIcon}>
+                            <MaterialCommunityIcons name="food" size={30} color="#009387" />
+                        </View>
+                        <Text style={styles.categoryBtnTxt}> Rest1</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.categoryBtn} onPress={() => { }}>
+                        <View style={styles.categoryIcon}>
+                            <MaterialCommunityIcons name="food-fork-drink" size={30} color="#009387" />
+                        </View>
+                        <Text style={styles.categoryBtnTxt}> Rest1</Text>
+                    </TouchableOpacity>
+                </View>
 
-        <ScrollView style={styles.scroll}>
-        <View style={styles.main}> 
-           <View style={{width:"10%"}}>
-               
-           </View>
-           <View style={styles.location}>
-           <TextInput
-             style={styles.inputStyle}
-             onChangeText={city => {}}
-             underlineColorAndroid="#F6F6F7"
-             placeholder="enter a city"
-             placeholderTextColor="gray"
-             keyboardType="default"
-            blurOnSubmit={false}
-           />
-           </View>
-           <View style={{width:"10%"}}>
-               <Icon name="search" size={30} />
-           </View>
-        </View>
-        
-        <View style={styles.title}>
-           <Text style={styles.titleText}>Food that</Text>
-           <Text>Meets your need</Text>
-        </View>
-        
-        <ScrollView
-          horizontal
-          showsVerticalScrollIndicator={false}
-          style={{marginTop:40}}>
+                <View style={[styles.categoryContainer, { marginTop: 10 }]}>
+                    <TouchableOpacity style={styles.categoryBtn} onPress={() => { }}>
+                        <View style={styles.categoryIcon}>
+                            <Ionicons name="ios-restaurant" size={30} color="#009387" />
+                        </View>
+                        <Text style={styles.categoryBtnTxt}> Rest1</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.categoryBtn} onPress={() => { }}>
+                        <View style={styles.categoryIcon}>
+                            <MaterialCommunityIcons name="food" size={30} color="#009387" />
+                        </View>
+                        <Text style={styles.categoryBtnTxt}> Rest1</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.categoryBtn} onPress={() => { }}>
+                        <View style={styles.categoryIcon}>
+                            <MaterialCommunityIcons name="food-fork-drink" size={30} color="#009387" />
+                        </View>
+                        <Text style={styles.categoryBtnTxt}> Rest1</Text>
+                    </TouchableOpacity>
+                </View>
 
-          <Category
-             imageURL={'burger'} 
-             title = "Burgers"
-             color="#f9dd7e" />    
-
-          <Category
-             imageURL={'sandwitch'} 
-             title = "Burrito"
-             color="#e4e5eb" />  
-
-          <Category
-             imageURL={'pizza'} 
-             title = "Pizza"
-             color="#e4e5eb" /> 
-
-          <Category
-             imageURL={'salad'} 
-             title = "Salad"
-             color="#e4e5eb" />    
+                <View style={styles.cardsWrapper}>
+                    <Text style={{ alignSelf: "center", fontWeight: "bold", fontSize: 16, color: "#333" }}>Most Popular</Text>
+                
+                    {data.map((item, index) => {
+                        return (
+                            <Card itemData = {item} 
+                            onPress={()=>{navigation.navigate('CardItemDetails', {itemData : item})}}
+                             />
+                        )
+                    })}
+                </View>
+            </View>
         </ScrollView>
-
-    <View style={styles.section}>
-      <View style={{width:"50%"}}>
-         <Text style={styles.sectionTitle}>New Products</Text>
-      </View>
-      <View style={{width:"50%", alignItems:"flex-end"}}>
-         <Icon
-            name="search"
-            size={25}
-            color="#848385"
-        />
-      </View>
-    </View>
-
-    <View style={styles.foodCanvas}>
-         <Product
-            image={require("../images/4.png")}
-            title="Burgers"
-            name="Smokehouse"
-            price="12.99"
-            details="Cheesy Beef Burger"
-            onPress={() => navigation.navigate('Details',{
-                itemId: 86,
-                otherParam: 'B',
-              })}
-         />
-          <Product
-            image={require("../images/6.png")}
-            title="Pizza2"
-            name="Adios Pizza"
-            details="Rich Pizza"
-            price="11.99"
-            onPress={() => this.props.navigation.navigate('Detail',{
-                itemId: 87,
-                otherParam: 'P',
-              })}
-
-               />
-    </View>
-    </ScrollView>   
     )
 }
 export default HomeScreen
 
 const styles = StyleSheet.create({
-    scroll: {
-        backgroundColor: "#FFF"
-    },
-    main: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginTop: 40,
-        marginHorizontal: 20
-    },
-    location: {
-        width: "80%",
-        alignItems: "center"
-    },
-    inputStyle: {
+    container: {
         flex: 1,
-        paddingLeft: 15,
-        paddingRight: 15,
-        borderWidth: 1.5,
-        borderRadius: 30,
-        borderColor: 'black',
-        width: '85%'
     },
-    title: {
-        paddingHorizontal: 20,
-        marginTop: 50
+    sliderContainer: {
+        height: 200,
+        width: '90%',
+        marginTop: 10,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        borderRadius: 8,
     },
-    titleText: {
-        fontSize: 20,
-        fontWeight: "bold"
-    },
-    section: {
-        alignItems: "center",
-        marginHorizontal: 20,
-        flexDirection: "row",
-        marginTop: 40
-    },
-    sectionTitle: {
-        fontSize: 20,
-        fontWeight: "bold"
-    },
-    foodCanvas: {
-        flexDirection: "row",
-        justifyContent: "center",
-        marginTop: 15,
-    }
 
+    wrapper: {},
+
+    slide: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        borderRadius: 8,
+    },
+    sliderImage: {
+        height: '100%',
+        width: '100%',
+        alignSelf: 'center',
+        borderRadius: 8,
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        width: '90%',
+        alignSelf: 'center',
+        marginTop: 25,
+        marginBottom: 10,
+    },
+    categoryBtn: {
+        flex: 1,
+        width: '30%',
+        marginHorizontal: 0,
+        alignSelf: 'center',
+    },
+    categoryIcon: {
+        borderWidth: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: 70,
+        height: 70,
+        backgroundColor: '#fff' /* '#FF6347' */,
+        borderRadius: 50,
+    },
+    categoryBtnTxt: {
+        alignSelf: 'center',
+        marginTop: 5,
+        color: '#009387',
+    },
+    cardsWrapper: {
+        marginTop: 20,
+        width: '90%',
+        alignSelf: 'center',
+    },
+    card: {
+        height: 100,
+        marginVertical: 10,
+        flexDirection: 'row',
+        shadowColor: '#999',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+    },
+    cardImgWrapper: {
+        flex: 1,
+    },
+    cardImg: {
+        height: '100%',
+        width: '100%',
+        alignSelf: 'center',
+        borderRadius: 8,
+        borderBottomRightRadius: 0,
+        borderTopRightRadius: 0,
+    },
+    cardInfo: {
+        flex: 2,
+        padding: 10,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderLeftWidth: 0,
+        borderBottomRightRadius: 8,
+        borderTopRightRadius: 8,
+        backgroundColor: '#fff',
+    },
+    cardTitle: {
+        fontWeight: 'bold',
+    },
+    cardDetails: {
+        fontSize: 12,
+        color: '#444',
+    },
 })
