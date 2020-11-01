@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
                                 resizeMode="cover"
                                 style={styles.sliderImage}>
                                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                                    <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>Text on top of image</Text>
+                                    <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}></Text>
                                 </View>
                             </ImageBackground>
                         </View>
