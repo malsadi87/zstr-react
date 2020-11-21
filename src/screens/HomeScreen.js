@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, Image, ImageBackground, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -11,7 +11,22 @@ import Swiper from 'react-native-swiper'
 
 const assets = require('../assets.js')
 
+import { MEALS_END_POINT } from '../model/end-points'
+
+
 const HomeScreen = ({ navigation }) => {
+    const [meals, setMeals] = useState([])
+    useEffect(() => {
+
+        fetch(MEALS_END_POINT)
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log("response data : " + JSON.stringify(responseData.rows))
+                setMeals(responseData.rows)
+            }).done()
+
+    }, [])
+
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -101,12 +116,13 @@ const HomeScreen = ({ navigation }) => {
 
                 <View style={styles.cardsWrapper}>
                     <Text style={{ alignSelf: "center", fontWeight: "bold", fontSize: 16, color: "#333" }}>Most Popular</Text>
-                
-                    {data.map((item, index) => {
+                    {meals.map((meal) => {
+                        //console.log('Meal : ' + JSON.stringify(meal))
                         return (
-                            <Card itemData = {item} 
-                            onPress={()=>{navigation.navigate('CardItemDetails', {itemData : item})}}
-                             />
+                            <Card itemData={meal}
+                                id={meal.id}
+                                onPress={() => { navigation.navigate('CardItemDetails', { itemData: meal }) }}
+                            />
                         )
                     })}
                 </View>

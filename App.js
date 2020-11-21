@@ -35,7 +35,7 @@ const App = () => {
   const initialLoginState = {
     isLoading: true,
     userToken: null,
-    userName: null
+    userId: null
   }
 
   const loginReducer = (prevState, action) => {
@@ -49,7 +49,7 @@ const App = () => {
       case 'LOGIN':
         return {
           ...prevState,
-          userName : action.id,
+          userId : action.id,
           userToken: action.token,
           isLoading: false
         }
@@ -57,13 +57,13 @@ const App = () => {
         return {
           ...prevState,
           userToken: null,
-          userName : null,
+          userId : null,
           isLoading: false
         }
       case 'REGISTER':
         return {
           ...prevState,
-          userName : token.id,
+          userId : token.id,
           userToken: action.token,
           isLoading: false
         }
@@ -76,20 +76,23 @@ const App = () => {
     signIn: async (foundUser) => {
       //setUserToken('aaaa')
       //setIsLoading(false)
-      const userToken = String(foundUser[0].userToken)
-      const username = String(foundUser[0].username)
+      console.log(' Sign in : ' + JSON.stringify(foundUser))
+      //const userToken = String(foundUser[0].userToken)
+      //const username = String(foundUser[0].username)
           try {
-            await AsyncStorage.setItem('userToken', userToken)
+            await AsyncStorage.setItem('userToken', foundUser.userToken)
+            await AsyncStorage.setItem('userId', foundUser.id)
           } catch (e) {
             // saving error
             console.log(e)
           }
       
-      dispatch({type:'LOGIN', id : username, token : userToken})
+      dispatch({type:'LOGIN', id : foundUser.id, token : foundUser.userToken})
     },
     signUp: () => {
-      setUserToken('aaaa')
-      setIsLoading(false)
+      console.log('Signup method')
+      //setUserToken('aaaa')
+      //setIsLoading(false)
     },
     signOut: async () => {
       //setUserToken(null)

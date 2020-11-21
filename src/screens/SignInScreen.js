@@ -6,11 +6,16 @@ import {
     TextInput
 } from 'react-native'
 
+import base64 from 'react-native-base64'
+
 import * as Animatable from 'react-native-animatable'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Feather from 'react-native-vector-icons/Feather'
 
 import { AuthContext } from '../components/context'
+
+import { AUTH_END_POINT, MASTER_KEY_TOKEN } from '../model/end-points'
+
 
 import Users from '../model/users'
 
@@ -59,13 +64,54 @@ const SignInScreen = ({ navigation }) => {
     const handleLogin = (username, password) => {
 
         if(username.length == 0 || password.length == 0){
-            Alert.alert('Wrong Input', 'Username or password field can not be empty', [
+            Alert.alert('Wrong Input', 'Email or password field can not be empty', [
                 {text : "OK"}
             ])
             return
         }
 
-        const foundUser = Users.filter(item => {
+        fetch(AUTH_END_POINT, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json', 
+                //Authorization: 'Bearer ' + MASTER_KEY_TOKEN
+                Authorization: 'Basic ' + base64.encode(`${username}:${password}`)
+            },
+            body: JSON.stringify({
+                access_token: MASTER_KEY_TOKEN
+            })
+        })
+            .then(response => {
+                console.log('First response : ' + JSON.stringify(response))
+                if(response.status == 201)
+                     return response.json()
+                else{
+                    Alert.alert(
+                        'Login',
+                        'email or password are not correct. Try again!',
+                        [
+                          //{text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                          {text: 'OK', onPress: () => {}},
+                        ],
+                        { cancelable: false }
+                      )
+                      return
+                }     
+            })
+            .then(data => {
+                console.log('data : ' + JSON.stringify(data))
+                signIn({
+                    userToken: data.token,
+                    id       : data.user.id
+                })
+            })
+            .catch(error => console.log(' error : ' + error.message))
+
+        
+    
+
+        /*const foundUser = Users.filter(item => {
             return item.username == username && item.password == password
         })
         if(foundUser.length == 0){
@@ -74,7 +120,7 @@ const SignInScreen = ({ navigation }) => {
             ])
             return
         }
-        signIn(foundUser)
+        signIn(foundUser)*/
     }
 
     return (
