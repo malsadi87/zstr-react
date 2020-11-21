@@ -103,7 +103,8 @@ const SignInScreen = ({ navigation }) => {
                 console.log('data : ' + JSON.stringify(data))
                 signIn({
                     userToken: data.token,
-                    id       : data.user.id
+                    id       : data.user.id,
+                    role     : data.user.role
                 })
             })
             .catch(error => console.log(' error : ' + error.message))

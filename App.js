@@ -18,11 +18,15 @@ import SettingsScreen from './src/screens/SettingsScreen'
 import SupportScreen from './src/screens/SupportScreen'
 import DrawerContent from './src/components/DrawerContent'
 
+//chef main Screen
+
+import HomeTabScreen from './src/screens/chef/HomeTabScreen'
+
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import { AuthContext } from './src/components/context'
-import Users  from './src/model/users'
- 
+import Users from './src/model/users'
+
 const Drawer = createDrawerNavigator()
 
 
@@ -35,7 +39,8 @@ const App = () => {
   const initialLoginState = {
     isLoading: true,
     userToken: null,
-    userId: null
+    userId: null,
+    role: null
   }
 
   const loginReducer = (prevState, action) => {
@@ -44,26 +49,29 @@ const App = () => {
         return {
           ...prevState,
           userToken: action.token,
-          isLoading: false
+          isLoading: false,
+          role: action.role
         }
       case 'LOGIN':
         return {
           ...prevState,
-          userId : action.id,
+          userId: action.id,
           userToken: action.token,
-          isLoading: false
+          isLoading: false,
+          role: action.role
         }
       case 'LOGOUT':
         return {
           ...prevState,
           userToken: null,
-          userId : null,
-          isLoading: false
+          userId: null,
+          isLoading: false,
+          role: null
         }
       case 'REGISTER':
         return {
           ...prevState,
-          userId : token.id,
+          userId: token.id,
           userToken: action.token,
           isLoading: false
         }
@@ -71,7 +79,7 @@ const App = () => {
   }
 
   const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState)
-  
+
   const authContext = useMemo(() => ({
     signIn: async (foundUser) => {
       //setUserToken('aaaa')
@@ -79,15 +87,16 @@ const App = () => {
       console.log(' Sign in : ' + JSON.stringify(foundUser))
       //const userToken = String(foundUser[0].userToken)
       //const username = String(foundUser[0].username)
-          try {
-            await AsyncStorage.setItem('userToken', foundUser.userToken)
-            await AsyncStorage.setItem('userId', foundUser.id)
-          } catch (e) {
-            // saving error
-            console.log(e)
-          }
-      
-      dispatch({type:'LOGIN', id : foundUser.id, token : foundUser.userToken})
+      try {
+        await AsyncStorage.setItem('userToken', foundUser.userToken)
+        await AsyncStorage.setItem('userId', foundUser.id)
+        await AsyncStorage.setItem('userRole', foundUser.role)
+      } catch (e) {
+        // saving error
+        console.log(e)
+      }
+
+      dispatch({ type: 'LOGIN', id: foundUser.id, token: foundUser.userToken, role: foundUser.role })
     },
     signUp: () => {
       console.log('Signup method')
@@ -103,7 +112,7 @@ const App = () => {
         // saving error
         console.log(e)
       }
-      dispatch({type:'LOGOUT'})
+      dispatch({ type: 'LOGOUT' })
 
     }
   }), [])
@@ -111,13 +120,15 @@ const App = () => {
     setTimeout(async () => {
       //setIsLoading(false)
       let userToken = null
+      let userRole = null
       try {
         userToken = await AsyncStorage.getItem('userToken')
+        userRole = await AsyncStorage.getItem('userRole')
       } catch (e) {
         // saving error
         console.log(e)
       }
-      dispatch({type:'RETRIEVE_TOKEN', token : userToken})
+      dispatch({ type: 'RETRIEVE_TOKEN', token: userToken, role: userRole })
 
     }, 1000)
   }, [])
@@ -131,18 +142,28 @@ const App = () => {
       </View>
     )
   }
-
+  console.log("Role : " + loginState.role)
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {loginState.userToken !== null ? (
-          <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-            <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-            <Drawer.Screen name="Bookmark" component={BookmarkScreen} />
-            <Drawer.Screen name="Settings" component={SettingsScreen} />
-            <Drawer.Screen name="Support" component={SupportScreen} />
-          </Drawer.Navigator>
-        ) : <RootStackScreen />}
+        {loginState.userToken == null ? <RootStackScreen /> :
+          [
+            loginState.role == "cook" ? (
+              <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+                <Drawer.Screen name="HomeDrawer" component={HomeTabScreen} />
+              </Drawer.Navigator>
+            ) :
+              (
+                <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+                  <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
+                  <Drawer.Screen name="Bookmark" component={BookmarkScreen} />
+                  <Drawer.Screen name="Settings" component={SettingsScreen} />
+                  <Drawer.Screen name="Support" component={SupportScreen} />
+                </Drawer.Navigator>
+              )
+
+          ]
+        }
       </NavigationContainer>
     </AuthContext.Provider>
   )
