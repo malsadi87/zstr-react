@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 
 const Card = ({ itemData, onPress }) => {
-  console.log("ID  " + itemData.image)
+  console.log("ID  " + itemData.id)
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.card}>

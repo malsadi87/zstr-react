@@ -116,11 +116,12 @@ const HomeScreen = ({ navigation }) => {
 
                 <View style={styles.cardsWrapper}>
                     <Text style={{ alignSelf: "center", fontWeight: "bold", fontSize: 16, color: "#333" }}>Most Popular</Text>
-                    {meals.map((meal) => {
-                        //console.log('Meal : ' + JSON.stringify(meal))
+                    {meals.map((meal, index) => {
+                        //console.log('Meal : ' + index)
                         return (
-                            <Card itemData={meal}
-                                id={meal.id}
+                            <Card 
+                                key={index}
+                                itemData={meal}
                                 onPress={() => { navigation.navigate('CardItemDetails', { itemData: meal }) }}
                             />
                         )

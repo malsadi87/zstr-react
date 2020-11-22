@@ -64,7 +64,7 @@ const HomeStackScreen = ({ navigation }) => {
       })} />
       <HomeStack.Screen name="CardItemDetails" component={CardItemDetailsScreen} 
       options={({route}) => ({
-          //title: route.params.title,
+          title: route.params.itemData.name,
           headerBackTitleVisible: false
       })} />
     </HomeStack.Navigator>
